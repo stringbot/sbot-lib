@@ -9,7 +9,7 @@
     (* num (cheap-exp num (dec expo)))))
 
 (definst bloop [note 60 length 0.25]
-  (let [env (env-gen:kr (perc 0.01 length) :action FREE)
+  (let [env (env-gen:kr (perc 0.02 length) :action FREE)
         sin (sin-osc (midicps note))]
     (* env sin)))
 

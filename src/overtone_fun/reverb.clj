@@ -32,4 +32,4 @@
         c2 (s-comb a3 0.802 1601 decay)
         c3 (s-comb a3 0.753 2053 decay)
         c4 (s-comb a3 0.733 2251 decay)]
-    (out [bus (+ bus 1)] [(+ c1 c3) (+ c3 c4)])))
+    (out [bus (+ bus 1)] [(+ c1 c4) (+ c2 c3)])))
