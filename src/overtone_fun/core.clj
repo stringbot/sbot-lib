@@ -3,6 +3,11 @@
 
 (require 'overtone.music.pitch)
 
+(defn cheap-exp [num expo]
+  (if (= expo 1)
+    num
+    (* num (cheap-exp num (dec expo)))))
+
 (definst bloop [note 60 length 0.25]
   (let [env (env-gen:kr (perc 0.01 length) :action FREE)
         sin (sin-osc (midicps note))]
