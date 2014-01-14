@@ -1,4 +1,4 @@
-(ns overtone-fun.core
+(ns sbot-lib.core
   (:use [overtone.live]))
 
 (require 'overtone.music.pitch)

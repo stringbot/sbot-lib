@@ -1,4 +1,4 @@
-(ns overtone-fun.reverb
+(ns sbot-lib.reverb
   (:use [overtone.live]))
 
 (definst cverb [bus 0 dly 0.1 scale 0.5]
@@ -16,15 +16,15 @@
 (defn s-allpass [in amp samps decay]
   (let [sc* #'overtone.sc.ugen-collide/*
         ms (s25ktos samps)]
-    (sc* 1.0 (allpass-n in ms ms decay))))
+    (sc* amp (allpass-n in ms ms decay))))
 
 (defn s-comb [in amp samps decay]
   (let [sc* #'overtone.sc.ugen-collide/*
         ms (s25ktos samps)]
-    (sc* 1.0 (comb-n in ms ms decay))))
+    (sc* amp (comb-n in ms ms decay))))
 
-(definst schroederverb [bus 0 decay 1.0]
-  (let [in (in [bus (+ bus 1)])
+(defsynth schroederverb [bus 0 decay 1.0]
+  (let [in (in bus)
         a1 (s-allpass in 0.7 347 decay)
         a2 (s-allpass a1 0.7 113 decay)
         a3 (s-allpass a2 0.7 37 decay)
