@@ -1,14 +1,18 @@
-# overtone_fun
+# Stringbot's Overtone Library
 
-A Clojure library designed to ... well, that part is up to you.
+My Overtone synth playground.
 
 ## Usage
 
-FIXME
+Probably the most interesting part will be the `fm-ops` module... try this:
+
+    $ lein repl
+    sbot-lib.core=> (require 'sbot-lib.fm-ops)
+    nil
+    sbot-lib.core=> (sbot-lib.fm-ops/fm-party)
+    #<synth-node[loading]: sbot-lib.reverb/schroederverb 42>
+    sbot-lib.core=> (stop)
 
 ## License
 
-Copyright © 2013 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Eh, whatever. Rip it off and patent it if you must. I'll know you're a bastard and that's what counts.
