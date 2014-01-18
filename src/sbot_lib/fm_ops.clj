@@ -15,32 +15,37 @@
         fmop (fm-op (midicps note) 1.0 mod-hz mod-amp)]
     (out bus (* 0.7 env fmop))))
 
-(defn looper [nome synth group note-seq len-seq mod-seq mod-amp-seq]
+(defn looper [nome n-notes max-count synth group note-seq len-seq mod-seq mod-amp-seq]
   (let [beat (nome)
         note (first note-seq)
         len  (first len-seq)
         fmod (first mod-seq)
         fm-amp (first mod-amp-seq)]
     (at (nome beat) (synth [:head group] 0 note len fmod fm-amp))
-    (apply-at (nome (inc beat))
-              looper
-              nome
-              synth
-              group
-              (rotate 1 note-seq)
-              (rotate 1 len-seq)
-              (rotate 1 mod-seq)
-              (rotate 1 mod-amp-seq) [])))
+    (if (< n-notes max-count)
+      (apply-at (nome (inc beat))
+                looper
+                nome
+                (inc n-notes)
+                max-count
+                synth
+                group
+                (rotate 1 note-seq)
+                (rotate 1 len-seq)
+                (rotate 1 mod-seq)
+                (rotate 1 mod-amp-seq) []))))
 
 (defonce fm-grp (group "OOTC Group"))
 
-(defn fm-party []
+(defn fm-party [max-count]
   (do
     (looper (metronome 240)
+            1
+            max-count
             fm-perc
             fm-grp
-            [60 64 72 76 84 90]
-            [0.1 0.3 0.6 0.2 1.0]
-            [200 400 300 800 1200 2000 4100]
-            [1200 800 900])
+            (shuffle [60 64 72 76 84 90])
+            (shuffle [0.1 0.3 0.6 0.2 1.0])
+            (shuffle [200 400 300 800 1200 2000 4100])
+            (shuffle [1200 800 900]))
     (verb/schroederverb [:tail fm-grp] :bus 0 :decay 4.0)))
