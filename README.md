@@ -7,11 +7,9 @@ My Overtone synth playground.
 Probably the most interesting part will be the `fm-ops` module... try this:
 
     $ lein repl
-    sbot-lib.core=> (require 'sbot-lib.fm-ops)
-    nil
-    sbot-lib.core=> (sbot-lib.fm-ops/fm-party)
+    sbot-lib.main=> (fm/fm-party 24)
     #<synth-node[loading]: sbot-lib.reverb/schroederverb 42>
-    sbot-lib.core=> (stop)
+    sbot-lib.core=> (stop) ; to clear the reverb synth after it finishes
 
 ## License
 
