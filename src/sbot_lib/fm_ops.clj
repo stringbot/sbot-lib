@@ -2,13 +2,13 @@
   (:use [overtone.live]
    :require [sbot-lib.reverb :as verb]))
 
-(defmacro amp-sine [hz amp]
+(defn amp-sine [hz amp]
   (let [* #'overtone.sc.ugen-collide/*]
-  `(~* (sin-osc ~hz) ~amp)))
+    (* (sin-osc hz) amp)))
 
-(defmacro fm-op [hz1 amp1 hz2 amp2]
+(defn fm-op [hz1 amp1 hz2 amp2]
   (let [+ #'overtone.sc.ugen-collide/+]
-    `(amp-sine (~+ ~hz1 (amp-sine ~hz2 ~amp2)) ~amp1)))
+    (amp-sine (+ hz1 (amp-sine hz2 amp2)) amp1)))
 
 (defsynth fm-perc [bus 0 note 60 length 0.25 mod-hz 100 mod-amp 200]
   (let [env (env-gen:kr (perc 0.03 length) :action FREE)
