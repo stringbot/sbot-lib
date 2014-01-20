@@ -18,7 +18,7 @@
         fmop (fm-op (midicps note) 1.0 mod-hz mod-amp)]
     (out bus (* 0.7 env fmop))))
 
-(defn looper [nome n-notes max-count synth group note-seq len-seq mod-seq mod-amp-seq]
+(defn fm-looper [nome n-notes max-count synth group note-seq len-seq mod-seq mod-amp-seq]
   (let [beat (nome)
         note (first note-seq)
         len  (first len-seq)
@@ -27,7 +27,7 @@
     (at (nome beat) (synth [:head group] 0 note len fmod fm-amp))
     (if (< n-notes max-count)
       (apply-at (nome (inc beat))
-                looper
+                fm-looper
                 nome
                 (inc n-notes)
                 max-count
@@ -40,8 +40,8 @@
 
 (defonce fm-grp (group "OOTC Group"))
 
-(defn fm-loop [max-count]
-  (looper (metronome 240)
+(defn fm-loop [max-count tempo]
+  (fm-looper (metronome tempo)
               1
               max-count
               fm-perc
@@ -56,5 +56,5 @@
 
 (defn fm-party [max-count]
   (do
-    (fm-loop max-count)
+    (fm-loop max-count 240)
     (insert-reverb)))
