@@ -2,6 +2,7 @@
   (:use [overtone.live]))
 
 (defsynth cverb [bus 0 dlay 0.25 lfo 0.5 modu 0.01 decay 0.5 scale 0.5]
+  "Single modulated comb filter"
   (out [bus (+ bus 1)] ;; force it to stereo
        (* scale
           (+ (in bus)
@@ -11,19 +12,23 @@
                decay)))))
 
 (defn s25ktos [samps]
+  "CCRMA examples use sampling rate of 25khz"
   (/ samps 25000.0))
 
 (defn s-allpass [in amp samps decay]
+  "CCRMA Schroeder allpass"
   (let [sc* #'overtone.sc.ugen-collide/*
         ms (s25ktos samps)]
     (sc* amp (allpass-n in ms ms decay))))
 
 (defn s-comb [in amp samps decay]
+  "CCRMA Schroeder comb"
   (let [sc* #'overtone.sc.ugen-collide/*
         ms (s25ktos samps)]
     (sc* amp (comb-n in ms ms decay))))
 
 (defsynth schroederverb [bus 0 decay 1.0]
+  "Schroederverb design based on https://ccrma.stanford.edu/~jos/pasp/Schroeder_Reverberators.html"
   (let [in (in bus)
         a1 (s-allpass in 0.7 347 decay)
         a2 (s-allpass a1 0.7 113 decay)
