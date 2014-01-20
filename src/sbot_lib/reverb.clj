@@ -1,14 +1,14 @@
 (ns sbot-lib.reverb
   (:use [overtone.live]))
 
-(definst cverb [bus 0 dly 0.1 scale 0.5]
+(defsynth cverb [bus 0 dlay 0.25 lfo 0.5 modu 0.01 decay 0.5 scale 0.5]
   (out [bus (+ bus 1)] ;; force it to stereo
        (* scale
           (+ (in bus)
-             (comb-n (in bus)
+             (comb-l (in bus)
                1.0
-               dly
-               2.0)))))
+               (+ dlay (* modu (+ 1.0 (sin-osc:kr lfo))))
+               decay)))))
 
 (defn s25ktos [samps]
   (/ samps 25000.0))
